@@ -703,8 +703,8 @@ Calculators are allowed.</textarea>
             document.getElementById('paper-title').value = '';
             document.getElementById('paper-duration').value = '';
             document.getElementById('paper-instructions').value = `Answer all questions in the spaces provided.
-Show all working clearly.
-Calculators are allowed.`;
+                Show all working clearly.
+                Calculators are allowed.`;
             document.getElementById('questions-container').innerHTML = '';
             questionCount = 0;
             activeQuestions.clear();
@@ -885,5 +885,54 @@ Calculators are allowed.`;
             }
         });
     </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+    async function generatePaperPDF() {
+        const paper = collectPaperData();
+
+        if (!paper.subject || !paper.title) {
+            alert("Please fill in the subject and paper title.");
+            return;
+        }
+        if (paper.questions.length === 0) {
+            alert("Please add at least one question.");
+            return;
+        }
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        let y = 20;
+        doc.setFontSize(16);
+        doc.text(paper.subject.toUpperCase(), 105, y, { align: "center" });
+        y += 8;
+        doc.setFontSize(14);
+        doc.text(paper.title, 105, y, { align: "center" });
+        y += 8;
+        doc.setFontSize(12);
+        doc.text(`Time: ${paper.duration} minutes`, 105, y, { align: "center" });
+        y += 10;
+
+        // Instructions
+        doc.setFontSize(11);
+        doc.text("Instructions:", 10, y);
+        y += 6;
+        const splitInstructions = doc.splitTextToSize(paper.instructions, 180);
+        doc.text(splitInstructions, 10, y);
+        y += splitInstructions.length * 6 + 4;
+
+        // Questions
+        paper.questions.forEach((q, index) => {
+            const qText = `${index + 1}. ${q.text} (${q.marks} marks)`;
+            const splitQuestion = doc.splitTextToSize(qText, 180);
+            doc.text(splitQuestion, 10, y);
+            y += splitQuestion.length * 6 + 4;
+        });
+
+        doc.save(`${paper.subject} - ${paper.title}.pdf`);
+    }
+</script>
+
 </body>
 </html>
