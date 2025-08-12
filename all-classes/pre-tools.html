@@ -508,6 +508,7 @@ Calculators are allowed.</textarea>
         // Past Paper Creator functionality
         let createdPapers = [];
         let questionCount = 0;
+        let activeQuestions = new Set(); // Track which questions are currently active
 
         function showTab(tabName) {
             if (tabName === 'create') {
@@ -530,6 +531,7 @@ Calculators are allowed.</textarea>
 
         function addQuestion() {
             questionCount++;
+            activeQuestions.add(questionCount);
             const questionsContainer = document.getElementById('questions-container');
             const questionDiv = document.createElement('div');
             questionDiv.className = 'border border-gray-200 rounded-lg p-4 mb-4';
@@ -571,11 +573,15 @@ Calculators are allowed.</textarea>
             const questionDiv = document.getElementById(`question-${id}`);
             if (questionDiv) {
                 questionDiv.remove();
+                activeQuestions.delete(id);
             }
         }
 
         function previewPaper() {
+            console.log('Preview button clicked'); // Debug log
             const paper = collectPaperData();
+            console.log('Collected paper data:', paper); // Debug log
+            
             if (!paper.subject || !paper.title) {
                 alert('Please fill in the subject and paper title.');
                 return;
@@ -592,6 +598,7 @@ Calculators are allowed.</textarea>
         }
 
         function collectPaperData() {
+            console.log('Collecting paper data...'); // Debug log
             const paper = {
                 subject: document.getElementById('paper-subject').value,
                 title: document.getElementById('paper-title').value,
@@ -601,26 +608,38 @@ Calculators are allowed.</textarea>
                 createdDate: new Date().toLocaleDateString()
             };
 
-            // Collect all questions
-            const questionDivs = document.querySelectorAll('[id^="question-"]');
-            questionDivs.forEach(div => {
-                const id = div.id.split('-')[1];
-                const marks = document.getElementById(`marks-${id}`)?.value;
-                const type = document.getElementById(`type-${id}`)?.value;
-                const text = document.getElementById(`text-${id}`)?.value;
-                const answer = document.getElementById(`answer-${id}`)?.value;
+            console.log('Basic paper info:', paper); // Debug log
 
-                if (text.trim()) {
-                    paper.questions.push({
-                        id: parseInt(id),
-                        marks: parseInt(marks) || 0,
-                        type: type,
-                        text: text.trim(),
-                        answer: answer.trim()
-                    });
+            // Collect all questions using activeQuestions set
+            activeQuestions.forEach(id => {
+                const marksEl = document.getElementById(`marks-${id}`);
+                const typeEl = document.getElementById(`type-${id}`);
+                const textEl = document.getElementById(`text-${id}`);
+                const answerEl = document.getElementById(`answer-${id}`);
+
+                if (marksEl && typeEl && textEl && answerEl) {
+                    const marks = marksEl.value;
+                    const type = typeEl.value;
+                    const text = textEl.value;
+                    const answer = answerEl.value;
+
+                    console.log(`Question ${id}:`, { marks, type, text, answer }); // Debug log
+
+                    if (text.trim()) {
+                        paper.questions.push({
+                            id: id,
+                            marks: parseInt(marks) || 0,
+                            type: type,
+                            text: text.trim(),
+                            answer: answer.trim()
+                        });
+                    }
+                } else {
+                    console.log(`Missing elements for question ${id}`); // Debug log
                 }
             });
 
+            console.log('Final paper with questions:', paper); // Debug log
             return paper;
         }
 
@@ -661,7 +680,9 @@ Calculators are allowed.</textarea>
         }
 
         function savePaper() {
+            console.log('Save button clicked'); // Debug log
             const paper = collectPaperData();
+            
             if (!paper.subject || !paper.title || paper.questions.length === 0) {
                 alert('Please fill in all required fields and add at least one question.');
                 return;
@@ -676,19 +697,76 @@ Calculators are allowed.</textarea>
             document.getElementById('paper-subject').value = '';
             document.getElementById('paper-title').value = '';
             document.getElementById('paper-duration').value = '';
+            document.getElementById('paper-instructions').value = `Answer all questions in the spaces provided.
+Show all working clearly.
+Calculators are allowed.`;
             document.getElementById('questions-container').innerHTML = '';
             questionCount = 0;
+            activeQuestions.clear();
         }
 
         function generatePaperPDF() {
+            console.log('PDF button clicked'); // Debug log
             const paper = collectPaperData();
+            
             if (!paper.subject || !paper.title || paper.questions.length === 0) {
                 alert('Please fill in all required fields and add at least one question before generating PDF.');
                 return;
             }
 
-            // In a real implementation, this would generate actual PDF
-            alert('PDF generation feature would create a downloadable PDF file of your examination paper.');
+            // Create a new window with the paper content
+            const paperHTML = generatePaperHTML(paper);
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                    <head>
+                        <title>${paper.subject} - ${paper.title}<\/title>
+                        <style>
+                            body { 
+                                font-family: Arial, sans-serif; 
+                                margin: 20px; 
+                                line-height: 1.6;
+                            }
+                            .text-center { text-align: center; }
+                            .font-bold { font-weight: bold; }
+                            .mb-1 { margin-bottom: 4px; }
+                            .mb-2 { margin-bottom: 8px; }
+                            .mb-4 { margin-bottom: 16px; }
+                            .mb-6 { margin-bottom: 24px; }
+                            .mb-8 { margin-bottom: 32px; }
+                            .space-y-6 > * + * { margin-top: 24px; }
+                            .border-l-4 { border-left: 4px solid #3b82f6; }
+                            .pl-4 { padding-left: 16px; }
+                            .whitespace-pre-line { white-space: pre-line; }
+                            .text-sm { font-size: 0.875rem; }
+                            .bg-gray-100 { background-color: #f3f4f6; }
+                            .px-2 { padding-left: 8px; padding-right: 8px; }
+                            .py-1 { padding-top: 4px; padding-bottom: 4px; }
+                            .rounded { border-radius: 4px; }
+                            .text-gray-600 { color: #4b5563; }
+                            .italic { font-style: italic; }
+                            .flex { display: flex; }
+                            .justify-between { justify-content: space-between; }
+                            .items-start { align-items: flex-start; }
+                            .items-center { align-items: center; }
+                        <\/style>
+                    <\/head>
+                    <body>
+                        ${paperHTML}
+                        <div style="margin-top: 40px; text-align: center; color: #666;">
+                            <p>Generated by EduTrack - ${new Date().toLocaleDateString()}<\/p>
+                        <\/div>
+                    <\/body>
+                <\/html>
+            `);
+            printWindow.document.close();
+            
+            // Add a small delay then trigger print dialog
+            setTimeout(() => {
+                printWindow.print();
+            }, 500);
+            
+            alert('PDF preview opened in new window. Use your browser\'s print function to save as PDF.');
         }
 
         function updateBrowseTab() {
@@ -747,7 +825,7 @@ Calculators are allowed.</textarea>
                     <head>
                         <title>Examination Paper<\/title>
                         <style>
-                            body { font-family: Arial, sans-serif; margin: 20px; }
+                            body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
                             .text-center { text-align: center; }
                             .font-bold { font-weight: bold; }
                             .mb-2 { margin-bottom: 8px; }
@@ -758,6 +836,16 @@ Calculators are allowed.</textarea>
                             .border-l-4 { border-left: 4px solid #3b82f6; }
                             .pl-4 { padding-left: 16px; }
                             .whitespace-pre-line { white-space: pre-line; }
+                            .text-sm { font-size: 0.875rem; }
+                            .bg-gray-100 { background-color: #f3f4f6; }
+                            .px-2 { padding-left: 8px; padding-right: 8px; }
+                            .py-1 { padding-top: 4px; padding-bottom: 4px; }
+                            .rounded { border-radius: 4px; }
+                            .text-gray-600 { color: #4b5563; }
+                            .italic { font-style: italic; }
+                            .flex { display: flex; }
+                            .justify-between { justify-content: space-between; }
+                            .items-start { align-items: flex-start; }
                         <\/style>
                     <\/head>
                     <body>${printContent}<\/body>
