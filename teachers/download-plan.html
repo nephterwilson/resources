@@ -49,13 +49,70 @@
             background: transparent !important;
             box-shadow: none !important;
         }
+        
     </style>
+
+    <style>
+    @media (max-width: 768px) {
+        .responsive-table table,
+        .responsive-table thead,
+        .responsive-table tbody,
+        .responsive-table th,
+        .responsive-table td,
+        .responsive-table tr {
+            display: block;
+        }
+        
+        .responsive-table thead tr {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+        
+        .responsive-table tr {
+            border: 1px solid #d1d5db;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            background: white;
+        }
+        
+        .responsive-table td {
+            border: none !important;
+            position: relative;
+            padding: 1rem !important;
+            text-align: left !important;
+        }
+        
+        .responsive-table td:before {
+            content: attr(data-label);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+        
+        .responsive-table td:first-child {
+            background: #f3f4f6;
+            font-weight: 600;
+            border-bottom: 2px solid #e5e7eb !important;
+        }
+        
+        .responsive-table td:first-child:before {
+            display: none;
+        }
+    }
+</style>
+
 </head>
 <body class="bg-gray-50 p-4">
     <div class="max-w-4xl mx-auto bg-white shadow-lg">
         <!-- Header Controls -->
      <div class="bg-blue-600 text-white p-4 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-    <h1 class="text-xl font-bold">Downloadable Lesson Plan Template</h1>
+    <h1 class="text-xl font-bold">Edit & Download Lesson Plan Template</h1>
     <div class="flex flex-col sm:flex-row sm:space-x-3 space-y-3 sm:space-y-0">
         <button onclick="loadTemplate()" class="bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded text-sm">Reset Template</button>
         <button onclick="clearAll()" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-sm">Clear All</button>
@@ -170,94 +227,93 @@
 
             <!-- Lesson Development Table -->
             <div class="space-y-4">
-                <div class="section-header text-white p-3 rounded-t">
-                    <h2 class="text-lg font-semibold">LESSON DEVELOPMENT</h2>
-                </div>
-                <div class="border border-gray-300 rounded-b overflow-hidden">
-                    <table class="w-full">
-                        <thead class="bg-gray-100">
-                            <tr>
-                                <th class="border border-gray-300 p-3 text-left font-semibold w-1/6">Stage & Time</th>
-                                <th class="border border-gray-300 p-3 text-left font-semibold w-5/12">Teacher's Activities</th>
-                                <th class="border border-gray-300 p-3 text-left font-semibold w-5/12">Learners' Activities</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Introduction -->
-                            <tr>
-                                <td class="border border-gray-300 p-3 bg-blue-50 font-semibold">
-                                    <div contenteditable="true" class="editable">Introduction<br>(5 min)</div>
-                                </td>
-                                <td class="border border-gray-300 p-3">
-                                    <div contenteditable="true" class="editable min-h-24">
-                                        - Greet students and take attendance<br>
-                                        - Ask: "What comes to mind when you hear 'natural disaster'?"<br>
-                                        - Show images of recent disasters<br>
-                                        - Introduce the lesson topic
-                                    </div>
-                                </td>
-                                <td class="border border-gray-300 p-3">
-                                    <div contenteditable="true" class="editable min-h-24">
-                                        - Respond to greetings<br>
-                                        - Share their thoughts and experiences<br>
-                                        - Observe images<br>
-                                        - Listen attentively
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            <!-- Development -->
-                            <tr>
-                                <td class="border border-gray-300 p-3 bg-green-50 font-semibold">
-                                    <div contenteditable="true" class="editable">Development<br>(25 min)</div>
-                                </td>
-                                <td class="border border-gray-300 p-3">
-                                    <div contenteditable="true" class="editable min-h-32">
-                                        - Define natural disasters<br>
-                                        - Explain types: earthquakes, floods, hurricanes, etc.<br>
-                                        - Discuss causes using examples<br>
-                                        - Use map to show disaster-prone areas<br>
-                                        - Facilitate group discussion on effects
-                                    </div>
-                                </td>
-                                <td class="border border-gray-300 p-3">
-                                    <div contenteditable="true" class="editable min-h-32">
-                                        - Take notes on definitions<br>
-                                        - Ask questions for clarification<br>
-                                        - Participate in group discussions<br>
-                                        - Identify locations on the map<br>
-                                        - Share personal experiences if any
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            <!-- Conclusion -->
-                            <tr>
-                                <td class="border border-gray-300 p-3 bg-yellow-50 font-semibold">
-                                    <div contenteditable="true" class="editable">Conclusion<br>(10 min)</div>
-                                </td>
-                                <td class="border border-gray-300 p-3">
-                                    <div contenteditable="true" class="editable min-h-24">
-                                        - Summarize key points<br>
-                                        - Ask students to name 3 natural disasters<br>
-                                        - Give assignment for next lesson<br>
-                                        - Preview next topic
-                                    </div>
-                                </td>
-                                <td class="border border-gray-300 p-3">
-                                    <div contenteditable="true" class="editable min-h-24">
-                                        - Listen to summary<br>
-                                        - Answer review questions<br>
-                                        - Note down assignment<br>
-                                        - Ask any final questions
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
+    <div class="section-header text-white p-3 rounded-t bg-blue-600">
+        <h2 class="text-lg font-semibold">LESSON DEVELOPMENT</h2>
+    </div>
+    <div class="border border-gray-300 rounded-b overflow-hidden responsive-table">
+        <table class="w-full">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="border border-gray-300 p-3 text-left font-semibold w-1/6">Stage & Time</th>
+                    <th class="border border-gray-300 p-3 text-left font-semibold w-5/12">Teacher's Activities</th>
+                    <th class="border border-gray-300 p-3 text-left font-semibold w-5/12">Learners' Activities</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Introduction -->
+                <tr>
+                    <td class="border border-gray-300 p-3 bg-blue-50 font-semibold">
+                        <div contenteditable="true" class="editable">Introduction<br>(5 min)</div>
+                    </td>
+                    <td class="border border-gray-300 p-3" data-label="Teacher's Activities">
+                        <div contenteditable="true" class="editable min-h-24">
+                            - Greet students and take attendance<br>
+                            - Ask: "What comes to mind when you hear 'natural disaster'?"<br>
+                            - Show images of recent disasters<br>
+                            - Introduce the lesson topic
+                        </div>
+                    </td>
+                    <td class="border border-gray-300 p-3" data-label="Learners' Activities">
+                        <div contenteditable="true" class="editable min-h-24">
+                            - Respond to greetings<br>
+                            - Share their thoughts and experiences<br>
+                            - Observe images<br>
+                            - Listen attentively
+                        </div>
+                    </td>
+                </tr>
+                
+                <!-- Development -->
+                <tr>
+                    <td class="border border-gray-300 p-3 bg-green-50 font-semibold">
+                        <div contenteditable="true" class="editable">Development<br>(25 min)</div>
+                    </td>
+                    <td class="border border-gray-300 p-3" data-label="Teacher's Activities">
+                        <div contenteditable="true" class="editable min-h-32">
+                            - Define natural disasters<br>
+                            - Explain types: earthquakes, floods, hurricanes, etc.<br>
+                            - Discuss causes using examples<br>
+                            - Use map to show disaster-prone areas<br>
+                            - Facilitate group discussion on effects
+                        </div>
+                    </td>
+                    <td class="border border-gray-300 p-3" data-label="Learners' Activities">
+                        <div contenteditable="true" class="editable min-h-32">
+                            - Take notes on definitions<br>
+                            - Ask questions for clarification<br>
+                            - Participate in group discussions<br>
+                            - Identify locations on the map<br>
+                            - Share personal experiences if any
+                        </div>
+                    </td>
+                </tr>
+                
+                <!-- Conclusion -->
+                <tr>
+                    <td class="border border-gray-300 p-3 bg-yellow-50 font-semibold">
+                        <div contenteditable="true" class="editable">Conclusion<br>(10 min)</div>
+                    </td>
+                    <td class="border border-gray-300 p-3" data-label="Teacher's Activities">
+                        <div contenteditable="true" class="editable min-h-24">
+                            - Summarize key points<br>
+                            - Ask students to name 3 natural disasters<br>
+                            - Give assignment for next lesson<br>
+                            - Preview next topic
+                        </div>
+                    </td>
+                    <td class="border border-gray-300 p-3" data-label="Learners' Activities">
+                        <div contenteditable="true" class="editable min-h-24">
+                            - Listen to summary<br>
+                            - Answer review questions<br>
+                            - Note down assignment<br>
+                            - Ask any final questions
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
             <!-- Assessment Section -->
             <div class="space-y-4">
                 <div class="section-header text-white p-3 rounded-t">

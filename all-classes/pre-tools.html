@@ -29,7 +29,7 @@
                 <div class="hidden md:block">
                     <div class="flex space-x-8">
                         <a href="#prep" class="text-gray-700 hover:text-primary transition-colors">MSCE/JCE Prep</a>
-                        <a href="#papers" class="text-gray-700 hover:text-primary transition-colors">Past Papers</a>
+                        <a href="#papers" class="text-gray-700 hover:text-primary transition-colors">Create Papers</a>
                         <a href="#tracking" class="text-gray-700 hover:text-primary transition-colors">CA Tracking</a>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
             <div class="px-2 pt-2 pb-3 space-y-1">
                 <a href="#prep" class="block px-3 py-2 text-gray-700 hover:text-primary">MSCE/JCE Prep</a>
-                <a href="#papers" class="block px-3 py-2 text-gray-700 hover:text-primary">Past Papers</a>
+                <a href="#papers" class="block px-3 py-2 text-gray-700 hover:text-primary">Create Papers</a>
                 <a href="#tracking" class="block px-3 py-2 text-gray-700 hover:text-primary">CA Tracking</a>
             </div>
         </div>
@@ -165,19 +165,21 @@
                 <div class="mb-8">
                     <label class="block text-sm font-medium mb-2">Paper Instructions</label>
                     <textarea id="paper-instructions" rows="3" placeholder="Enter general instructions for students..." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">Answer all questions in the spaces provided.
-Show all working clearly.
-Calculators are allowed.</textarea>
+                    Show all working clearly.
+                    Calculators are allowed.</textarea>
                 </div>
 
                 <!-- Questions Section -->
                 <div class="mb-8">
+
+                     <div id="questions-container">
+                        <!-- Questions will be added here -->
+                    </div>
                     <div class="flex justify-between items-center mb-4">
                         <h5 class="text-lg font-semibold">Questions</h5>
                         <button onclick="addQuestion()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">+ Add Question</button>
                     </div>
-                    <div id="questions-container">
-                        <!-- Questions will be added here -->
-                    </div>
+                   
                 </div>
 
                 <!-- Generate Paper Button -->
