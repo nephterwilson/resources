@@ -644,40 +644,45 @@ Calculators are allowed.</textarea>
         }
 
         function generatePaperHTML(paper) {
-            const totalMarks = paper.questions.reduce((sum, q) => sum + q.marks, 0);
-            
-            let html = `
-                <div class="text-center mb-8">
-                    <h1 class="text-2xl font-bold mb-2">${paper.subject.toUpperCase()}</h1>
-                    <h2 class="text-xl mb-2">${paper.title}</h2>
-                    <p class="mb-1"><strong>Time:</strong> ${paper.duration ? paper.duration + ' minutes' : 'Not specified'}</p>
-                    <p><strong>Total Marks:</strong> ${totalMarks}</p>
-                </div>
-                
-                <div class="mb-6">
-                    <h3 class="font-bold mb-2">INSTRUCTIONS:</h3>
-                    <div class="whitespace-pre-line">${paper.instructions}</div>
-                </div>
-                
-                <div class="space-y-6">
-            `;
+                    const totalMarks = paper.questions.reduce((sum, q) => sum + q.marks, 0);
 
-            paper.questions.forEach((q, index) => {
-                html += `
-                    <div class="border-l-4 border-primary pl-4">
-                        <div class="flex justify-between items-start mb-2">
-                            <h4 class="font-semibold">${index + 1}.</h4>
-                            <span class="text-sm bg-gray-100 px-2 py-1 rounded">[${q.marks} marks]</span>
+                    let html = `
+                        <div class="text-center mb-8">
+                            <h1 class="text-2xl font-bold mb-2">${paper.subject.toUpperCase()}</h1>
+                            <h2 class="text-xl mb-2">${paper.title}</h2>
+                            <p class="mb-1"><strong>Time:</strong> ${paper.duration ? paper.duration + ' minutes' : 'Not specified'}</p>
+                            <p><strong>Total Marks:</strong> ${totalMarks}</p>
                         </div>
-                        <div class="whitespace-pre-line mb-4">${q.text}</div>
-                        ${q.answer ? `<div class="text-sm text-gray-600 italic">Expected answer: ${q.answer}</div>` : ''}
-                    </div>
-                `;
-            });
+                        
+                        <div class="mb-6">
+                            <h3 class="font-bold mb-2">INSTRUCTIONS:</h3>
+                            <div class="whitespace-pre-line">${paper.instructions}</div>
+                        </div>
+                        
+                        <div class="space-y-6">
+                    `;
 
-            html += '</div>';
-            return html;
-        }
+                    paper.questions.forEach((q, index) => {
+                        html += `
+                            <div class="border-l-4 border-primary pl-4">
+                                <div class="flex justify-between items-start">
+                                    <!-- Left side: number + question text -->
+                                    <div class="flex">
+                                        <span class="font-semibold mr-2">${index + 1}.</span>
+                                        <div class="whitespace-pre-line">${q.text}</div>
+                                    </div>
+                                    <!-- Right side: marks -->
+                                    <span class="text-sm bg-gray-100 px-2 py-1 rounded">[${q.marks} marks]</span>
+                                </div>
+                                ${q.answer ? `<div class="text-sm text-gray-600 italic mt-2">Expected answer: ${q.answer}</div>` : ''}
+                            </div>
+                        `;
+                    });
+
+                    html += '</div>';
+                    return html;
+                }
+
 
         function savePaper() {
             console.log('Save button clicked'); // Debug log
