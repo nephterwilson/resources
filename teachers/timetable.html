@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>School Timetable Generator - Malawi Edition</title>
+    
+
     <style>
         * {
             margin: 0;
@@ -173,10 +175,11 @@
             border-collapse: collapse;
             min-width: 1200px;
             font-size: 12px;
+            border: 2px solid #2c3e50;
         }
 
         .timetable th, .timetable td {
-            border: 1px solid #bdc3c7;
+            border: 1px solid #2c3e50;
             padding: 8px;
             text-align: center;
             position: relative;
@@ -191,12 +194,14 @@
             position: sticky;
             top: 0;
             z-index: 10;
+            border: 1px solid #2c3e50;
         }
 
         .timetable th.day-header {
             background: linear-gradient(135deg, #27ae60, #2ecc71);
             font-size: 12px;
             font-weight: 700;
+            border: 1px solid #2c3e50;
         }
 
         .timetable td {
@@ -205,6 +210,7 @@
             vertical-align: middle;
             cursor: pointer;
             transition: all 0.3s;
+            border: 1px solid #2c3e50;
         }
 
         .timetable td:hover {
@@ -216,18 +222,21 @@
             font-weight: 600;
             color: white;
             font-size: 11px;
+            border: 1px solid #2c3e50;
         }
 
         .timetable td.break-time {
             background: linear-gradient(135deg, #f39c12, #e67e22) !important;
             color: white;
             font-weight: 700;
+            border: 1px solid #2c3e50;
         }
 
         .timetable td.lunch-time {
             background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
             color: white;
             font-weight: 700;
+            border: 1px solid #2c3e50;
         }
 
         .subject-colors {
@@ -359,16 +368,72 @@
 
         @media print {
             body { 
-                background: white; 
-                padding: 0; 
+                background: white !important; 
+                padding: 0 !important;
+                margin: 0 !important;
             }
             .container { 
-                box-shadow: none; 
-                background: white;
-                max-width: none;
+                box-shadow: none !important; 
+                background: white !important;
+                max-width: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
             }
-            .setup-section, .controls { 
-                display: none; 
+            .setup-section, .controls, .quick-setup, .stats, .subject-colors { 
+                display: none !important; 
+            }
+            h1 {
+                display: none !important;
+            }
+            .timetable-container {
+                margin: 0 !important;
+                padding: 10px !important;
+                box-shadow: none !important;
+                page-break-inside: avoid;
+            }
+            .timetable-header {
+                background: white !important;
+                color: black !important;
+                border: 2px solid black !important;
+                margin-bottom: 10px !important;
+            }
+            .timetable-header p {
+                display: none !important;
+            }
+            .timetable {
+                font-size: 10px !important;
+                min-width: auto !important;
+                border: 2px solid black !important;
+            }
+            .timetable th, .timetable td {
+                padding: 4px !important;
+                font-size: 9px !important;
+                border: 1px solid black !important;
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            .timetable th {
+                background: #f0f0f0 !important;
+                color: black !important;
+                font-weight: bold !important;
+                border: 1px solid black !important;
+            }
+            .timetable td.filled {
+                color: black !important;
+                background: #f8f8f8 !important;
+                border: 1px solid black !important;
+            }
+            .timetable td.break-time, .timetable td.lunch-time {
+                background: #e0e0e0 !important;
+                color: black !important;
+                border: 1px solid black !important;
+            }
+            .timetable td.day-header {
+                background: #f0f0f0 !important;
+                color: black !important;
+                font-weight: bold !important;
+                border: 1px solid black !important;
             }
         }
 
@@ -489,7 +554,7 @@
 
         <div class="controls">
             <button class="generate-btn" onclick="generateTimetable()">🎯 Generate Timetable</button>
-            <button class="pdf-btn" onclick="exportToPDF()">📄 Export to PDF</button>
+           <button onclick="exportToPDF()">Download PDF</button>
             <button onclick="clearTimetable()">🗑️ Clear All</button>
             <button onclick="saveTimetable()">💾 Save</button>
             <button onclick="loadTimetable()">📂 Load</button>
@@ -519,7 +584,7 @@
         <div class="timetable-container" id="timetableContainer">
             <div class="timetable-header">
                 <h2 id="timetableTitle">School Timetable</h2>
-                <p>Click on any cell to assign subjects</p>
+                <p id="clickInstruction">Click on any cell to assign subjects</p>
             </div>
             <div class="subject-colors" id="subjectColors"></div>
             <div style="overflow-x: auto;">
@@ -1065,5 +1130,43 @@
             }
         });
     </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+        <script>
+function exportToPDF() {
+    window.scrollTo(0, 0);
+
+    const timetable = document.getElementById('timetableContainer');
+    if (!timetable) {
+        alert("Timetable container not found!");
+        return;
+    }
+
+    // Force width so landscape is actually wider than portrait
+    timetable.style.minWidth = "1100px"; 
+
+    const schoolName = document.getElementById('schoolName')?.value || 'School_Timetable';
+
+    const opt = {
+        margin: 0.5,
+        filename: `${schoolName.replace(/\s+/g, '_')}_timetable.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+            scale: 3, // sharper & fills width
+            useCORS: true,
+            logging: false
+        },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
+    };
+
+    setTimeout(() => {
+        html2pdf().set(opt).from(timetable).save();
+    }, 300);
+}
+</script>
+
+
+
 </body>
 </html>
