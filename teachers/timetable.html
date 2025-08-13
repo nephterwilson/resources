@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>School Timetable Generator - Malawi Edition</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
     
 
     <style>
@@ -454,6 +458,9 @@
                 font-size: 10px;
             }
         }
+
+    
+
     </style>
 </head>
 <body>
@@ -1112,11 +1119,6 @@
             input.click();
         }
 
-        function exportToPDF() {
-            showAlert('PDF export functionality would require a PDF library. For now, use your browser\'s print function (Ctrl+P) to save as PDF.', 'success');
-            window.print();
-        }
-
         // Allow Enter key to add classes and subjects
         document.getElementById('newClass').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -1131,40 +1133,70 @@
         });
     </script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-        <script>
+       
+       <script>
 function exportToPDF() {
-    window.scrollTo(0, 0);
+    const { jsPDF } = window.jspdf;
 
-    const timetable = document.getElementById('timetableContainer');
-    if (!timetable) {
-        alert("Timetable container not found!");
+    const table = document.getElementById('timetableGrid');
+    if (!table) {
+        alert("Timetable table not found!");
         return;
     }
 
-    // Force width so landscape is actually wider than portrait
-    timetable.style.minWidth = "1100px"; 
+    const pdf = new jsPDF('landscape', 'pt', 'a4'); // landscape A4
+    const pageWidth = pdf.internal.pageSize.getWidth();
 
+    // Get school info
     const schoolName = document.getElementById('schoolName')?.value || 'School_Timetable';
+    const academicYear = document.getElementById('academicYear')?.value || '';
+    const term = document.getElementById('term')?.value || '';
 
-    const opt = {
-        margin: 0.5,
-        filename: `${schoolName.replace(/\s+/g, '_')}_timetable.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: {
-            scale: 3, // sharper & fills width
-            useCORS: true,
-            logging: false
+    pdf.autoTable({ 
+        html: '#timetableGrid',
+        startY: 100, // space for centered header
+        theme: 'grid',
+        styles: { fontSize: 10, textColor: 0 },
+        headStyles: { fillColor: [41, 128, 185], textColor: 255 },
+        margin: { top: 100, left: 20, right: 20 },
+        didParseCell: function (data) {
+            const cell = data.cell.raw;
+            const style = window.getComputedStyle(cell);
+            const bg = style.backgroundColor;
+
+            if (cell.classList.contains('break-time')) {
+                data.cell.styles.fillColor = [243, 156, 18];
+                data.cell.styles.textColor = 255;
+            } else if (cell.classList.contains('lunch-time')) {
+                data.cell.styles.fillColor = [231, 76, 60];
+                data.cell.styles.textColor = 255;
+            } else if (cell.classList.contains('filled')) {
+                const rgb = bg.match(/\d+/g);
+                if (rgb) data.cell.styles.fillColor = rgb.map(Number);
+                data.cell.styles.textColor = 255;
+            }
         },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
-    };
+        didDrawPage: function (data) {
+            // Centered School Name
+            pdf.setFontSize(16);
+            pdf.setFont(undefined, 'bold');
+            let textWidth = pdf.getTextWidth(schoolName);
+            pdf.text(schoolName, (pageWidth - textWidth) / 2, 40);
 
-    setTimeout(() => {
-        html2pdf().set(opt).from(timetable).save();
-    }, 300);
+            // Academic Year & Term on next line centered
+            pdf.setFontSize(12);
+            pdf.setFont(undefined, 'normal');
+            const yearTerm = `Academic Year: ${academicYear}    |    Term: ${term}`;
+            let yearTermWidth = pdf.getTextWidth(yearTerm);
+            pdf.text(yearTerm, (pageWidth - yearTermWidth) / 2, 60);
+        }
+    });
+
+    pdf.save(`${schoolName.replace(/\s+/g,'_')}_timetable.pdf`);
 }
 </script>
+
+
 
 
 
