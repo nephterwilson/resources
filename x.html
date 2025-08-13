@@ -1,285 +1,372 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>School Report Template</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- html2pdf.js for PDF export -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-  <style>
-    /* Hide print buttons in print */
-    @media print {
-      #printBtn, #downloadBtn, #addSubjectBtn {
-        display: none;
-      }
-      body {
-        background: white;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Resources for everyone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="./img/icon.ico" type="image/x-icon" />
 </head>
-<body class="bg-gray-50 p-6 min-h-screen">
-
-  <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
-    <h1 class="text-3xl font-bold mb-6 text-center">School Report Template</h1>
-
-    <form id="reportForm" class="space-y-6">
-      <!-- School Details -->
-      <section>
-        <h2 class="text-xl font-semibold mb-2">School Details</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <input type="text" placeholder="School Name" class="border rounded px-3 py-2" name="schoolName" required />
-          <input type="text" placeholder="School Address" class="border rounded px-3 py-2" name="schoolAddress" />
-          <input type="text" placeholder="School Contact" class="border rounded px-3 py-2" name="schoolContact" />
+<body class="min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800">
+    <!-- Navigation -->
+  <nav class="sticky top-0 z-50 bg-white/10 backdrop-blur-lg border-b border-white/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <h1 class="text-2xl font-bold text-white">MDC</h1>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="./students.html" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Students</a>
+                        <a href="./teachers.html" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Teachers</a>
+                        <a href="./elearning.html" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Elearning</a>
+                        <a href="./digitals.html" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Digital Tools</a>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-white hover:text-yellow-300 inline-flex items-center justify-center p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition-colors duration-200">
+                        <span class="sr-only">Open main menu</span>
+                        <!-- Hamburger icon -->
+                        <svg id="menu-icon" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <!-- Close icon -->
+                        <svg id="close-icon" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
-      </section>
-
-      <!-- Student Details -->
-      <section>
-        <h2 class="text-xl font-semibold mb-2">Student Details</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <input type="text" placeholder="Student Full Name" class="border rounded px-3 py-2" name="studentName" required />
-          <input type="text" placeholder="Student ID" class="border rounded px-3 py-2" name="studentId" />
-          <input type="text" placeholder="Class/Form" class="border rounded px-3 py-2" name="studentClass" />
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/10 backdrop-blur-lg border-t border-white/20">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="./students.html" class="text-white hover:text-yellow-300 hover:bg-white/10 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">Students</a>
+                <a href="./teachers.html" class="text-white hover:text-yellow-300 hover:bg-white/10 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">Teachers</a>
+                <a href="./elearning.html" class="text-white hover:text-yellow-300 hover:bg-white/10 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">Elearning</a>
+                <a href="./digitals.html" class="text-white hover:text-yellow-300 hover:bg-white/10 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">Digital Tools</a>
+            </div>
         </div>
-      </section>
+    </nav>
 
-      <!-- Term and Position -->
-      <section>
-        <h2 class="text-xl font-semibold mb-2">Term & Academic Position</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <input type="text" placeholder="Term (e.g. Term 1, 2025)" class="border rounded px-3 py-2" name="term" required />
-          <input type="number" placeholder="Academic Position" class="border rounded px-3 py-2" name="academicPosition" min="1" />
-          <input type="text" placeholder="Class Size" class="border rounded px-3 py-2" name="classSize" />
+    <div class="p-4 md:p-6">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-12 mt-8">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
+                    Millennium <span class="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Digital Centre</span>
+                </h1>
+
+              
+            </div>
+
+            <!-- Resources Grid - Only visible on mobile -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 md:hidden">
+                <!-- Form 1 -->
+                <a href="./students.html" class="group block transform hover:scale-105 transition-all duration-300">
+                    <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 h-full hover:bg-white/20 transition-all duration-300">
+                        <div class="text-4xl mb-4 group-hover:animate-bounce">📚</div>
+                        <h3 class="text-xl font-bold text-white mb-2">For Students</h3>
+                        <p class="text-blue-100 text-sm">Secondary school resources</p>
+                    </div>
+                </a>
+
+                <!-- Form 2 -->
+                <a href="teachers.html" class="group block transform hover:scale-105 transition-all duration-300">
+                    <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 h-full hover:bg-white/20 transition-all duration-300">
+                        <div class="text-4xl mb-4 group-hover:animate-bounce">📖</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Teacher Guides</h3>
+                        <p class="text-blue-100 text-sm">Teacher resources</p>
+                    </div>
+                </a>
+
+                <!-- Form 3 -->
+                <a href="elearning.html" class="group block transform hover:scale-105 transition-all duration-300">
+                    <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 h-full hover:bg-white/20 transition-all duration-300">
+                        <div class="text-4xl mb-4 group-hover:animate-bounce">🎓</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Elearning</h3>
+                        <p class="text-blue-100 text-sm">Learn Online resources</p>
+                    </div>
+                </a>
+
+                <!-- Form 4 -->
+                <a href="digitals.html" class="group block transform hover:scale-105 transition-all duration-300">
+                    <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 h-full hover:bg-white/20 transition-all duration-300">
+                        <div class="text-4xl mb-4 group-hover:animate-bounce">🏆</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Digital Resources</h3>
+                        <p class="text-blue-100 text-sm">Access Digital Apps & Tools</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Desktop Hero Content -->
+            <div class="hidden md:block py-16">
+                <!-- Hero Section -->
+                <div class="text-center mb-20">
+                    <div class="flex justify-center items-center gap-8 mb-8">
+                        <div class="text-7xl animate-bounce">📱</div>
+                        <div class="text-7xl animate-bounce delay-100">💻</div>
+                        <div class="text-7xl animate-bounce delay-200">🚀</div>
+                    </div>
+                    <h3 class="text-5xl font-bold text-white mb-6">Digital Tools & Resources Hub</h3>
+                    <p class="text-2xl text-blue-100 mb-8 leading-relaxed max-w-4xl mx-auto">
+                        Your gateway to powerful digital tools, learning resources, and innovative solutions for everyone
+                    </p>
+                </div>
+
+                <!-- Full Width Feature Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-20">
+                    <!-- Students Section -->
+                    <div class="bg-white/8 backdrop-blur-lg border border-white/20 rounded-3xl p-8 hover:bg-white/12 transition-all duration-300 transform hover:scale-105">
+                        <div class="text-center mb-6">
+                            <div class="text-6xl mb-4">🎓</div>
+                            <h4 class="text-2xl font-bold text-white mb-4">Students</h4>
+                        </div>
+                        <div class="space-y-4 text-blue-100">
+                            <div class="flex items-center gap-3">
+                                <div class="text-green-400">✓</div>
+                                <span>Study Materials</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="text-green-400">✓</div>
+                                <span>Practice Tools</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="text-green-400">✓</div>
+                                <span>Progress Tracking</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="text-green-400">✓</div>
+                                <span>Resource Library</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Teachers Section -->
+                    <div class="bg-white/8 backdrop-blur-lg border border-white/20 rounded-3xl p-8 hover:bg-white/12 transition-all duration-300 transform hover:scale-105">
+                        <div class="text-center mb-6">
+                            <div class="text-6xl mb-4">👨‍🏫</div>
+                            <h4 class="text-2xl font-bold text-white mb-4">Teachers</h4>
+                        </div>
+                        <div class="space-y-4 text-blue-100">
+                            <div class="flex items-center gap-3">
+                                <div class="text-green-400">✓</div>
+                                <span>Teaching Guides</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="text-green-400">✓</div>
+                                <span>Lesson Plans</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="text-green-400">✓</div>
+                                <span>Assessment Tools</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="text-green-400">✓</div>
+                                <span>Classroom Resources</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Online Learning Section -->
+                    <div class="bg-white/8 backdrop-blur-lg border border-white/20 rounded-3xl p-8 hover:bg-white/12 transition-all duration-300 transform hover:scale-105">
+                        <div class="text-center mb-6">
+                            <div class="text-6xl mb-4">🌐</div>
+                            <h4 class="text-2xl font-bold text-white mb-4">E-Learning</h4>
+                        </div>
+                        <div class="space-y-4 text-blue-100">
+                            <div class="flex items-center gap-3">
+                                <div class="text-green-400">✓</div>
+                                <span>Online Courses</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="text-green-400">✓</div>
+                                <span>Interactive Content</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="text-green-400">✓</div>
+                                <span>Self-Paced Learning</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="text-green-400">✓</div>
+                                <span>Skill Development</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Digital Tools Section -->
+                    <div class="bg-white/8 backdrop-blur-lg border border-white/20 rounded-3xl p-8 hover:bg-white/12 transition-all duration-300 transform hover:scale-105">
+                        <div class="text-center mb-6">
+                            <div class="text-6xl mb-4">⚡</div>
+                            <h4 class="text-2xl font-bold text-white mb-4">Digital Tools</h4>
+                        </div>
+                        <div class="space-y-4 text-blue-100">
+                            <div class="flex items-center gap-3">
+                                <div class="text-green-400">✓</div>
+                                <span>Productivity Apps</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="text-green-400">✓</div>
+                                <span>Creative Software</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="text-green-400">✓</div>
+                                <span>Collaboration Tools</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="text-green-400">✓</div>
+                                <span>Utility Applications</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats and Impact Section -->
+                <div class="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-12 mb-16">
+                    <h4 class="text-3xl font-bold text-white mb-8 text-center">Empowering Digital Success</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                        <div class="text-center">
+                            <div class="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent mb-2">1000+</div>
+                            <p class="text-blue-100">Digital Resources</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent mb-2">500+</div>
+                            <p class="text-blue-100">Tools & Apps</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent mb-2">100+</div>
+                            <p class="text-blue-100">Learning Modules</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2">24/7</div>
+                            <p class="text-blue-100">Access Available</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mission Statement -->
+                <div class="text-center max-w-5xl mx-auto">
+                    <h4 class="text-3xl font-bold text-white mb-6">Why Choose Our Platform?</h4>
+                    <p class="text-xl text-blue-100 leading-relaxed mb-8">
+                        Whether you're a student, teacher, professional, or tech enthusiast, our platform provides 
+                        the digital tools and resources you need to succeed in today's connected world.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white/8 backdrop-blur-lg border border-white/20 rounded-2xl p-6">
+                            <div class="text-3xl mb-3">🎯</div>
+                            <h5 class="text-lg font-semibold text-white mb-2">Easy Access</h5>
+                            <p class="text-blue-100 text-sm">Instant access to all tools and resources</p>
+                        </div>
+                        <div class="bg-white/8 backdrop-blur-lg border border-white/20 rounded-2xl p-6">
+                            <div class="text-3xl mb-3">🔄</div>
+                            <h5 class="text-lg font-semibold text-white mb-2">Regular Updates</h5>
+                            <p class="text-blue-100 text-sm">Fresh content and new tools added regularly</p>
+                        </div>
+                        <div class="bg-white/8 backdrop-blur-lg border border-white/20 rounded-2xl p-6">
+                            <div class="text-3xl mb-3">🌟</div>
+                            <h5 class="text-lg font-semibold text-white mb-2">Quality Assured</h5>
+                            <p class="text-blue-100 text-sm">Curated selection of premium resources</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <section class="flex flex-col md:flex-row justify-center py-8 space-y-6 md:space-y-0 md:space-x-6 max-w-5xl mx-auto px-4">
+                <!-- Contacts -->
+                <a href="https://school.wtec1.com/" class="group block transform hover:scale-105 transition-all duration-300 md:flex-1" target="_blank">
+                    <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 h-full hover:bg-white/20 transition-all duration-300 text-center">
+                        <div class="text-4xl mb-4 group-hover:animate-bounce">📧</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Contact Us</h3>
+                        <p class="text-blue-100 text-sm">MILLENNIUM E-LEARNING CENTRE</p>
+                    </div>
+                </a>
+            </section>
+
+            <!-- Footer -->
+            <div class="text-center">
+                <p class="text-blue-100 text-sm md:hidden">
+                    Click on any form to access comprehensive learning materials and resources
+                </p>
+                <p class="text-blue-100 text-sm hidden md:block">
+                    Use the navigation menu above to access comprehensive learning materials and resources
+                </p>
+                <div class="mt-6 flex justify-center space-x-4">
+                    <div class="w-3 h-3 bg-white/30 rounded-full animate-pulse"></div>
+                    <div class="w-3 h-3 bg-white/50 rounded-full animate-pulse delay-100"></div>
+                    <div class="w-3 h-3 bg-white/30 rounded-full animate-pulse delay-200"></div>
+                </div>
+            </div>
         </div>
-      </section>
+    </div>
 
-      <!-- Subjects -->
-      <section>
-        <h2 class="text-xl font-semibold mb-2">Subjects, Grades & Remarks</h2>
-        <table class="w-full table-auto border-collapse border border-gray-300">
-          <thead>
-            <tr class="bg-gray-200">
-              <th class="border border-gray-300 px-3 py-2 text-left">Subject</th>
-              <th class="border border-gray-300 px-3 py-2 text-left">Grade</th>
-              <th class="border border-gray-300 px-3 py-2 text-left">Remarks</th>
-            </tr>
-          </thead>
-          <tbody id="subjectsBody">
-            <!-- Rows inserted by JS -->
-          </tbody>
-        </table>
-        <div class="mt-2 text-right font-semibold text-gray-700">
-          Total Marks: <span id="totalMarks">0</span>
-        </div>
-        <button type="button" id="addSubjectBtn" class="mt-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Add Subject</button>
-      </section>
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
 
-      <!-- Teacher's Comments -->
-      <section>
-        <h2 class="text-xl font-semibold mb-2">Teacher's Comments</h2>
-        <textarea name="teacherComments" rows="4" placeholder="Enter comments here..." class="w-full border rounded px-3 py-2"></textarea>
-      </section>
+        mobileMenuBtn.addEventListener('click', () => {
+            const isOpen = !mobileMenu.classList.contains('hidden');
+            
+            if (isOpen) {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            } else {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            }
+        });
 
-      <div class="flex justify-center space-x-4 mt-6">
-        <button type="button" id="printBtn" class="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 font-semibold">
-          Print Report
-        </button>
-        <button type="button" id="downloadBtn" class="bg-indigo-600 text-white px-6 py-3 rounded hover:bg-indigo-700 font-semibold">
-          Download PDF
-        </button>
-      </div>
-    </form>
-  </div>
+        // Close mobile menu when clicking on a link
+        const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            });
+        });
 
- <script>
-  const subjectsBody = document.getElementById('subjectsBody');
-  const addSubjectBtn = document.getElementById('addSubjectBtn');
-  const printBtn = document.getElementById('printBtn');
-  const downloadBtn = document.getElementById('downloadBtn');
-  const reportForm = document.getElementById('reportForm');
-  const totalMarksSpan = document.getElementById('totalMarks');
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
 
-  // Add new subject row
-  function addSubjectRow(subject = '', grade = '', remarks = '') {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td class="border border-gray-300 px-3 py-2">
-        <input type="text" name="subject[]" value="${subject}" placeholder="Subject name" class="w-full border rounded px-2 py-1" required />
-      </td>
-      <td class="border border-gray-300 px-3 py-2">
-        <input type="number" name="grade[]" value="${grade}" placeholder="Grade (e.g. 75)" class="w-full border rounded px-2 py-1" min="0" max="100" required />
-      </td>
-      <td class="border border-gray-300 px-3 py-2">
-        <input type="text" name="remarks[]" value="${remarks}" placeholder="Remarks" class="w-full border rounded px-2 py-1" />
-      </td>
-    `;
-    subjectsBody.appendChild(row);
+        // Add entrance animations
+        const cards = document.querySelectorAll('.group');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
 
-    // Add listener for dynamic total calculation on grade input
-    const gradeInput = row.querySelector('input[name="grade[]"]');
-    gradeInput.addEventListener('input', calculateTotalMarks);
-
-    calculateTotalMarks();
-  }
-
-  // Calculate total marks dynamically
-  function calculateTotalMarks() {
-    const gradeInputs = document.querySelectorAll('input[name="grade[]"]');
-    let total = 0;
-    gradeInputs.forEach(input => {
-      const val = input.value.trim();
-      const num = parseFloat(val);
-      if (!isNaN(num)) {
-        total += num;
-      }
-    });
-    totalMarksSpan.textContent = total.toFixed(2);
-  }
-
-  // Initial subject row
-  addSubjectRow();
-
-  // Add subject row on button click
-  addSubjectBtn.addEventListener('click', () => addSubjectRow());
-
-  // Helper to get input values
-  function getInputValue(name, index = 0) {
-    const inputs = reportForm.querySelectorAll(`[name="${name}"]`);
-    return inputs[index]?.value.trim() || '';
-  }
-
-  // Create printable HTML string
-  function createPrintableHTML() {
-    const subjects = Array.from(reportForm.querySelectorAll('input[name="subject[]"]'));
-    const grades = Array.from(reportForm.querySelectorAll('input[name="grade[]"]'));
-    const remarks = Array.from(reportForm.querySelectorAll('input[name="remarks[]"]'));
-
-    const subjectsHTML = subjects.map((subInput, i) => {
-      const subject = subInput.value.trim();
-      const grade = grades[i].value.trim();
-      const remark = remarks[i].value.trim();
-      return `
-        <tr>
-          <td style="border:1px solid #cbd5e1; padding: 0.5rem;">${subject}</td>
-          <td style="border:1px solid #cbd5e1; padding: 0.5rem;">${grade}</td>
-          <td style="border:1px solid #cbd5e1; padding: 0.5rem;">${remark}</td>
-        </tr>
-      `;
-    }).join('');
-
-    const totalMarks = totalMarksSpan.textContent;
-
-    return `
-      <h1 style="text-align:center; margin-bottom: 1rem;">School Report</h1>
-
-      <section>
-        <h2 style="font-weight:600;">School Details</h2>
-        <p><strong>School Name:</strong> ${getInputValue('schoolName')}</p>
-        <p><strong>School Address:</strong> ${getInputValue('schoolAddress')}</p>
-        <p><strong>School Contact:</strong> ${getInputValue('schoolContact')}</p>
-      </section>
-
-      <section>
-        <h2 style="font-weight:600;">Student Details</h2>
-        <p><strong>Name:</strong> ${getInputValue('studentName')}</p>
-        <p><strong>ID:</strong> ${getInputValue('studentId')}</p>
-        <p><strong>Class/Form:</strong> ${getInputValue('studentClass')}</p>
-      </section>
-
-      <section>
-        <h2 style="font-weight:600;">Term & Academic Position</h2>
-        <p><strong>Term:</strong> ${getInputValue('term')}</p>
-        <p><strong>Academic Position:</strong> ${getInputValue('academicPosition')}</p>
-        <p><strong>Class Size:</strong> ${getInputValue('classSize')}</p>
-      </section>
-
-      <section>
-        <h2 style="font-weight:600;">Subjects, Grades & Remarks</h2>
-        <table style="width:100%; border-collapse: collapse; margin-top: 0.5rem;">
-          <thead>
-            <tr style="background-color:#e2e8f0;">
-              <th style="border:1px solid #cbd5e1; padding: 0.5rem; text-align:left;">Subject</th>
-              <th style="border:1px solid #cbd5e1; padding: 0.5rem; text-align:left;">Grade</th>
-              <th style="border:1px solid #cbd5e1; padding: 0.5rem; text-align:left;">Remarks</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${subjectsHTML}
-          </tbody>
-          <tfoot>
-            <tr style="background-color:#e2e8f0; font-weight: bold;">
-              <td style="border:1px solid #cbd5e1; padding: 0.5rem; text-align:left;">Total Marks</td>
-              <td style="border:1px solid #cbd5e1; padding: 0.5rem; text-align:left;" colspan="2">${totalMarks}</td>
-            </tr>
-          </tfoot>
-        </table>
-      </section>
-
-      <section style="margin-top:1rem;">
-        <h2 style="font-weight:600;">Teacher's Comments</h2>
-        <p>${getInputValue('teacherComments').replace(/\n/g, '<br>')}</p>
-      </section>
-    `;
-  }
-
-  // Print handler
-  printBtn.addEventListener('click', () => {
-    if (!reportForm.reportValidity()) {
-      alert('Please fill out all required fields before printing.');
-      return;
-    }
-    const printWindow = window.open('', '', 'width=900,height=700');
-    printWindow.document.write('<html><head><title>Print Report</title>');
-    printWindow.document.write('<style>body{font-family:sans-serif; margin:2rem;} table {border-collapse: collapse; width: 100%;} th, td {border: 1px solid #ccc; padding: 8px; text-align:left;} th {background-color: #e2e8f0;}</style>');
-    printWindow.document.write('</head><body>');
-    printWindow.document.write(createPrintableHTML());
-    printWindow.document.write('');
-    printWindow.document.close();
-    printWindow.focus();
-    printWindow.print();
-    printWindow.close();
-  });
-
-  // Download PDF handler
-  downloadBtn.addEventListener('click', () => {
-    if (!reportForm.reportValidity()) {
-      alert('Please fill out all required fields before downloading.');
-      return;
-    }
-    const printableContent = document.createElement('div');
-    printableContent.style.maxWidth = '800px';
-    printableContent.style.margin = 'auto';
-    printableContent.style.padding = '1rem';
-    printableContent.style.backgroundColor = 'white';
-    printableContent.style.color = 'black';
-    printableContent.style.fontFamily = 'sans-serif';
-    printableContent.innerHTML = createPrintableHTML();
-
-    document.body.appendChild(printableContent);
-
-    html2pdf()
-      .set({
-        margin: 0.5,
-        filename: 'school-report.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-      })
-      .from(printableContent)
-      .save()
-      .finally(() => {
-        document.body.removeChild(printableContent);
-      });
-  });
-
-</script>
-
-
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(50px)';
+            card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+            observer.observe(card);
+        });
+    </script>
 </body>
 </html>
