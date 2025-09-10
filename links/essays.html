@@ -1,0 +1,114 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Millennium Elearning Centre</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon" href="../img/icon.ico" type="image/x-icon" />
+  <style>
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+      50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.4); }
+    }
+    .animate-fade-up { animation: fadeInUp 0.8s ease-out forwards; }
+    .animate-float { animation: float 3s ease-in-out infinite; }
+    .animate-glow { animation: glow 2s ease-in-out infinite; }
+    .bg-gradient-cosmic { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .bg-gradient-card { background: linear-gradient(145deg, #1e293b, #334155); }
+    .text-gradient { background: linear-gradient(90deg, #fbbf24, #f59e0b, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-cosmic relative overflow-x-hidden">
+  <!-- Animated background elements -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-10 left-10 w-20 h-20 bg-blue-400 rounded-full opacity-20 animate-float" style="animation-delay: 0s;"></div>
+    <div class="absolute top-32 right-20 w-16 h-16 bg-purple-400 rounded-full opacity-20 animate-float" style="animation-delay: 1s;"></div>
+    <div class="absolute bottom-20 left-1/4 w-24 h-24 bg-yellow-400 rounded-full opacity-20 animate-float" style="animation-delay: 2s;"></div>
+    <div class="absolute bottom-40 right-10 w-12 h-12 bg-pink-400 rounded-full opacity-20 animate-float" style="animation-delay: 1.5s;"></div>
+  </div>
+
+  <div class="relative z-10 container mx-auto px-4 py-8 sm:py-12 lg:py-16 text-center">
+    <!-- Header section -->
+    <div class="animate-fade-up">
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-white drop-shadow-2xl">
+        <span class="text-gradient">Millennium</span><br class="sm:hidden">
+        <span class="text-white">Elearning Centre</span>
+      </h1>
+      <div class="w-24 h-1 bg-gradient-to-r from-yellow-400 to-orange-500 mx-auto mb-6 rounded-full"></div>
+    </div>
+
+    <!-- Welcome section -->
+    <div class="animate-fade-up mb-8 sm:mb-12" style="animation-delay: 0.2s;">
+      <h2 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4 text-white/90">
+        Welcome to Elearning Materials Page
+      </h2>
+      <p class="text-base sm:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
+        Discover a world of knowledge across various disciplines. Choose your path to learning excellence.
+      </p>
+    </div>
+
+    <!-- Cards section -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-6xl mx-auto animate-fade-up" style="animation-delay: 0.4s;">
+      
+      <!-- Sciences Card -->
+      <a href="https://ac.wtec1.com/category/essays/science/" 
+         class="group relative bg-gradient-card text-white p-6 sm:p-8 rounded-2xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 animate-glow border border-white/10 backdrop-blur-sm">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-2xl"></div>
+        <div class="relative z-10">
+          <div class="text-4xl sm:text-5xl mb-4 group-hover:animate-bounce">🔬</div>
+          <h3 class="text-xl sm:text-2xl font-bold mb-3">SCIENCES</h3>
+          <p class="text-sm sm:text-base text-white/80 mb-4">Explore the wonders of scientific discovery</p>
+          <div class="w-full h-1 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+        </div>
+      </a>
+
+      <!-- Languages Card -->
+      <a href="https://ac.wtec1.com/category/essays/languages/" 
+         class="group relative bg-gradient-card text-white p-6 sm:p-8 rounded-2xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 animate-glow border border-white/10 backdrop-blur-sm" style="animation-delay: 0.1s;">
+        <div class="absolute inset-0 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-2xl"></div>
+        <div class="relative z-10">
+          <div class="text-4xl sm:text-5xl mb-4 group-hover:animate-bounce">🗣️</div>
+          <h3 class="text-xl sm:text-2xl font-bold mb-3">LANGUAGES</h3>
+          <p class="text-sm sm:text-base text-white/80 mb-4">Master the art of communication</p>
+          <div class="w-full h-1 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+        </div>
+      </a>
+
+      <!-- Humanities Card -->
+      <a href="https://ac.wtec1.com/category/essays/humanities/" 
+         class="group relative bg-gradient-card text-white p-6 sm:p-8 rounded-2xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 animate-glow border border-white/10 backdrop-blur-sm sm:col-span-2 lg:col-span-1" style="animation-delay: 0.2s;">
+        <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl"></div>
+        <div class="relative z-10">
+          <div class="text-4xl sm:text-5xl mb-4 group-hover:animate-bounce">📚</div>
+          <h3 class="text-xl sm:text-2xl font-bold mb-3">HUMANITIES</h3>
+          <p class="text-sm sm:text-base text-white/80 mb-4">Delve into human culture and society</p>
+          <div class="w-full h-1 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Footer accent -->
+    <div class="mt-12 sm:mt-16 animate-fade-up" style="animation-delay: 0.6s;">
+      <div class="flex justify-center space-x-2">
+        <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+        <div class="w-2 h-2 bg-blue-400 rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
+        <div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
